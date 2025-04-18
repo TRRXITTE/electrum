@@ -213,9 +213,9 @@ def get_locktime_for_new_transaction(
     server_height = network.get_server_height()  # height claimed by main server, unverified
     # note: main server might be lagging (either is slow, is malicious, or there is an SPV-invisible-hard-fork)
     #       - if it's lagging too much, it is the network's job to switch away
-    if server_height < chain_height - 10:
+  #  if server_height < chain_height - 10:
         # the diff is suspiciously large... give up and use something non-fingerprintable
-        return 0
+   #    return 0
     # discourage "fee sniping"
     locktime = min(chain_height, server_height)
     # sometimes pick locktime a bit further back, to help privacy

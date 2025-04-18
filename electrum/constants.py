@@ -101,41 +101,38 @@ class BitcoinMainnet(AbstractNet):
 
     NET_NAME = "mainnet"
     TESTNET = False
-    WIF_PREFIX = 0x80
-    ADDRTYPE_P2PKH = 0
-    ADDRTYPE_P2SH = 5
-    SEGWIT_HRP = "bc"
+    WIF_PREFIX = 0xbf  # 191 in decimal, for private keys (base58Prefixes[SECRET_KEY])
+    ADDRTYPE_P2PKH = 0  # PUBKEY_ADDRESS, starts with '1'
+    ADDRTYPE_P2SH = 136  # SCRIPT_ADDRESS, starts with 'x'
+    SEGWIT_HRP = "tb"  # Bech32 human-readable part, per TRRXITTE's bech32_hrp
     BOLT11_HRP = SEGWIT_HRP
-    GENESIS = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
-    DEFAULT_PORTS = {'t': '50001', 's': '50002'}
-    DEFAULT_SERVERS = read_json(os.path.join('chains', 'servers.json'))
-    FALLBACK_LN_NODES = create_fallback_node_list(read_json(os.path.join('chains', 'fallback_lnnodes_mainnet.json')))
-    CHECKPOINTS = read_json(os.path.join('chains', 'checkpoints.json'))
-    BLOCK_HEIGHT_FIRST_LIGHTNING_CHANNELS = 497000
+    GENESIS = "00000484c46425cb3b260b4ecc3c33f032bf8bc8396eca605309696e4c361516"  # TRRXITTE genesis hash
+    DEFAULT_PORTS = {'t': '45525', 's': '45526'}  # nDefaultPort = 45525, +1 for SSL
+    DEFAULT_SERVERS = read_json(os.path.join('chains', 'trrxitte_servers.json'))  # Update with TRRXITTE servers
+    FALLBACK_LN_NODES = create_fallback_node_list(read_json(os.path.join('chains', 'trrxitte_fallback_lnnodes_mainnet.json')))  # Update if Lightning is supported
+    CHECKPOINTS = read_json(os.path.join('chains', 'trrxitte_checkpoints.json'))  # TRRXITTE checkpoints
+    BLOCK_HEIGHT_FIRST_LIGHTNING_CHANNELS = None  # Set if TRRXITTE supports Lightning
 
+    # Extended private key headers (xprv, xpub)
     XPRV_HEADERS = {
-        'standard':    0x0488ade4,  # xprv
-        'p2wpkh-p2sh': 0x049d7878,  # yprv
-        'p2wsh-p2sh':  0x0295b005,  # Yprv
-        'p2wpkh':      0x04b2430c,  # zprv
-        'p2wsh':       0x02aa7a99,  # Zprv
+        'standard': 0x0488ade4,  # xprv, per base58Prefixes[EXT_SECRET_KEY]
+        'p2wpkh-p2sh': 0x049d7878,  # yprv (placeholder, adjust if TRRXITTE differs)
+        'p2wsh-p2sh': 0x0295b005,  # Yprv (placeholder)
+        'p2wpkh': 0x04b2430c,  # zprv (placeholder)
+        'p2wsh': 0x02aa7a99,  # Zprv (placeholder)
     }
     XPRV_HEADERS_INV = inv_dict(XPRV_HEADERS)
     XPUB_HEADERS = {
-        'standard':    0x0488b21e,  # xpub
-        'p2wpkh-p2sh': 0x049d7cb2,  # ypub
-        'p2wsh-p2sh':  0x0295b43f,  # Ypub
-        'p2wpkh':      0x04b24746,  # zpub
-        'p2wsh':       0x02aa7ed3,  # Zpub
+        'standard': 0x0488b21e,  # xpub, per base58Prefixes[EXT_PUBLIC_KEY]
+        'p2wpkh-p2sh': 0x049d7cb2,  # ypub (placeholder)
+        'p2wsh-p2sh': 0x0295b43f,  # Ypub (placeholder)
+        'p2wpkh': 0x04b24746,  # zpub (placeholder)
+        'p2wsh': 0x02aa7ed3,  # Zpub (placeholder)
     }
     XPUB_HEADERS_INV = inv_dict(XPUB_HEADERS)
-    BIP44_COIN_TYPE = 0
-    LN_REALM_BYTE = 0
-    LN_DNS_SEEDS = [
-        'nodes.lightning.directory.',
-        'lseed.bitcoinstats.com.',
-        'lseed.darosior.ninja',
-    ]
+    BIP44_COIN_TYPE = 0  # Adjust if TRRXITTE has a specific BIP44 coin type
+    LN_REALM_BYTE = 0  # Adjust if TRRXITTE supports Lightning
+    LN_DNS_SEEDS = []
 
 
 class BitcoinTestnet(AbstractNet):

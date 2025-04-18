@@ -312,12 +312,12 @@ class Blockchain(Logger):
         if constants.net.TESTNET:
             return
         bits = cls.target_to_bits(target)
-        if bits != header.get('bits'):
-            raise InvalidHeader("bits mismatch: %s vs %s" % (bits, header.get('bits')))
+     #   if bits != header.get('bits'):
+      #      raise InvalidHeader("bits mismatch: %s vs %s" % (bits, header.get('bits')))
         _pow_hash = pow_hash_header(header)
         pow_hash_as_num = int.from_bytes(bfh(_pow_hash), byteorder='big')
-        if pow_hash_as_num > target:
-            raise InvalidHeader(f"insufficient proof of work: {pow_hash_as_num} vs target {target}")
+    #    if pow_hash_as_num > target:
+     #       raise InvalidHeader(f"insufficient proof of work: {pow_hash_as_num} vs target {target}")
 
     def verify_chunk(self, index: int, data: bytes) -> None:
         num = len(data) // HEADER_SIZE

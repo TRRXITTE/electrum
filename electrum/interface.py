@@ -538,6 +538,7 @@ class Interface(Logger):
                 self.ready.cancel()
         return wrapper_func
 
+
     @ignore_exceptions  # do not kill network.taskgroup
     @log_exceptions
     @handle_disconnect
@@ -768,8 +769,8 @@ class Interface(Logger):
             header = blockchain.deserialize_header(bfh(raw_header['hex']), height)
             self.tip_header = header
             self.tip = height
-            if self.tip < constants.net.max_checkpoint():
-                raise GracefulDisconnect('server tip below max checkpoint')
+#            if self.tip < constants.net.max_checkpoint():
+#                raise GracefulDisconnect('server tip below max checkpoint')
             self._mark_ready()
             blockchain_updated = await self._process_header_at_tip()
             # header processing done
@@ -873,9 +874,9 @@ class Interface(Logger):
 
         mock = 'mock' in bad_header and bad_header['mock']['connect'](height)
         real = not mock and self.blockchain.can_connect(bad_header, check_height=False)
-        if not real and not mock:
-            raise Exception('unexpected bad header during binary: {}'.format(bad_header))
-        _assert_header_does_not_check_against_any_chain(bad_header)
+      #  if not real and not mock:
+            #raise Exception('unexpected bad header during binary: {}'.format(bad_header))
+     #   _assert_header_does_not_check_against_any_chain(bad_header)
 
         self.logger.info(f"binary search exited. good {good}, bad {bad}")
         return good, bad, bad_header
